@@ -1,14 +1,12 @@
 <template>
     <div>
-        <section v-if="name">
-            <h1>Halo {{ $route.params.name }}</h1>
-            <router-link to="/user">Kembali</router-link>
-        </section>
-        <section v-else>
+        <section>
             <h1>Daftar User</h1>
+            <router-link to="/customer/create">Tambah</router-link>
             <ul>
                 <li v-for="user in users">
-                    <router-link :to="profile_uri(user.nama)">{{ user.nama }}</router-link>
+                    <!-- <router-link :to="profile_uri(user.nama)">{{ user.nama }}</router-link> -->
+                    <a href="" @click.prevent="lihatUser(user.id_customer)">{{ user.nama }}</a>
                 </li>
             </ul>
         </section>
@@ -16,23 +14,35 @@
 </template>
 
 <script>
+import axios from 'axios';
+
     export default{
-        props: ['name'],
         data() {
             return {
-                users: [
-                    {
-                        id: 1, nama: 'rizal'
-                    },
-                    {
-                        id: 2, nama: 'Fakhri'
-                    }
-                ]
+                users: [],
             }
         },
+        // watch: {
+        //     '$route': 'getUsers'
+        // },
+        mounted() {
+            this.getUsers()
+        },  
         methods: {
+            getUsers() {
+                axios.get('/api/customer').then((res) => {
+                    this.users = res.data
+                    console.log(res);
+                })
+            },
             profile_uri(nama) {
-                return '/user/' + nama.toLowerCase()
+                return '/customer/' + nama.toLowerCase()
+            },
+            lihatUser(id) {
+                this.$router.push({
+                    name: 'Profile',
+                    params: {id: id}
+                })
             }
         }
     }

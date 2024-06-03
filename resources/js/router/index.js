@@ -7,6 +7,8 @@ const Home = require('../pages/Home.vue').default
 const About = require('../pages/About.vue').default
 import NotFound from '../pages/NotFound.vue';
 import User from '../pages/User.vue'
+import Profile from '../pages/Profile.vue'
+import Registrasi from '../pages/Registrasi.vue';
 
 const routes = [
     {
@@ -19,8 +21,21 @@ const routes = [
         component: About
     },
     {
-        path: '/user/:name?',
+        name: 'User',
+        path: '/customer',
         component: User,
+        // props: true
+    },
+    {
+        name: 'Daftar',
+        path: '/customer/create',
+        component: Registrasi,
+        // props: true
+    },
+    {
+        name: 'Profile',
+        path: '/customer/:id',
+        component: Profile,
         props: true
     },
     {
